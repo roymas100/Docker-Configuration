@@ -6,7 +6,9 @@
 * [Instalando Docker](#ancora1)
   * [Instalando Docker no Windows](#ancora1.1)
   * [Instalando Docker no MacOS](#ancora1.2)
-* [Reutilizando um projeto](#ancora2)
+* [Configurando POSTGRES no Docker](#ancora2)
+* [Comandos comuns do Docker](#ancora3)
+* [Reutilizando um projeto](#ancora4)
   
 <a id="ancora1"></a>
 # Instalando Docker
@@ -37,6 +39,9 @@ wsl --set-default-version 2
 #### Caso apareça a mensagem ```WSL 2 requires an update to its kernel component. For information please visit https://aka.ms/wsl2kernel``` ou ```Erro: 0x1bc```. Instale: 
 * [Pacote de atualização do kernel do linux](https://docs.microsoft.com/pt-br/windows/wsl/install-win10#step-4---download-the-linux-kernel-update-package).
 
+#### Instale o Docker Desktop
+* [Docker desktop](https://hub.docker.com/editions/community/docker-ce-desktop-windows/)
+
 <a id="ancora1.2"></a>
 ## Docker Mac
 
@@ -44,6 +49,54 @@ wsl --set-default-version 2
 * [Docker - MacOS](https://hub.docker.com/editions/community/docker-ce-desktop-mac)
 
 <a id="ancora2"></a>
+# Configurando POSTGRES no Docker
+
+#### Verifique se a porta 5432, comumente utilizada a para imagem de postgres está sendo utilizada
+
+<b>1. No MAC e linux:</b>
+```
+lsof -i :5432
+```
+<b>2. No windows, abra o powershell:</b>
+```
+Get-Process -Id (Get-NetTCPConnection -LocalPort 5432).OwningProcess
+```
+
+#### Instale a imagem do postgres no docker
+```
+docker run --name database_postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
+```
+
+#### Instale o DBeaver ou Postbird para visualização do banco de dados
+* [DBeaver](https://dbeaver.io/download/)
+  ou
+* [DBeaver](https://www.electronjs.org/apps/postbird)
+
+<a id="ancora3"></a>
+# Comandos comuns do Docker
+
+<b>1. Mostra imagens sendo executadas no momento</b>
+```
+docker ps
+```
+<b>2. Monstra todas as imagens instaladas no pc</b>
+```
+docker ps -a
+```
+<b>3. Inicia uma imagem</b>
+```
+docker start database
+```
+<b>4. Remove uma imagem existente</b>
+```
+docker rm database
+```
+<b>5. Para uma imagem sendo executada</b>
+```
+docker stop database
+```
+
+<a id="ancora4"></a>
 # Reutilizando um projeto
 
 #### Partimos de uma imagem existente
